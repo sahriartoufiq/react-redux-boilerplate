@@ -1,25 +1,23 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS } from "../constants";
-
-const loginRequest = user => {
-  return { type: LOGIN_REQUEST, user };
-};
+import { LOGIN_SUCCESS, ACCESS_TOKEN } from "../constants";
+import { history } from "../App";
+import jwt from "jsonwebtoken";
 
 const loginSuccess = user => {
   return { type: LOGIN_SUCCESS, user };
 };
 
-const login = (username, password) => {
+const login = data => {
   return dispatch => {
-    dispatch(loginRequest({ username }));
+    const token = data[ACCESS_TOKEN];
+    const userId = jwt.decode(token).sub;
 
-    console.log("Attempt login .....................");
+    dispatch(loginSuccess({ id: userId }));
 
-    // TODO: CALL LOGIN API
-
-    dispatch(loginSuccess({ username }));
+    localStorage.setItem(ACCESS_TOKEN, token);
+    history.push("/");
   };
 };
 
-export const userActions = {
+export const profileActions = {
   login
 };
