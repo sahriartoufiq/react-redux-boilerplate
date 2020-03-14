@@ -3,7 +3,7 @@ import { Route } from "react-router";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-export class ProtectedRouteComponent extends Route {
+class ProtectedRouteComponent extends Route {
   render() {
     if (!this.props.authenticated && !this.props.userDetailsFetched) {
       return <Redirect push to="/login" />;
